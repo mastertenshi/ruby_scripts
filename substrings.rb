@@ -2,12 +2,17 @@ def substrings(string, dict)
   hash = {}
 
   dict.each do |key|
-    string.split(" ").each do |word|
-      if word.downcase.include?(key)
-        hash.key?(key) ? hash[key] += 1 : hash[key] = 1
-      end
-    end
+    count = string.downcase.scan(key).count
+    hash[key] = count unless count == 0
   end
+
+  # dict.each do |key|
+  #   string.split(" ").each do |word|
+  #     if word.downcase.include?(key)
+  #       hash.key?(key) ? hash[key] += 1 : hash[key] = 1
+  #     end
+  #   end
+  # end
   
   hash
 end
