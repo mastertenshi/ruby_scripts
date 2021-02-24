@@ -2,7 +2,7 @@ def substrings(string, dict)
   hash = {}
 
   dict.each do |key|
-    count = string.downcase.scan(key).count
+    count = string.downcase.scan(key).count  # .count can be replaced with .length or .size
     hash[key] = count unless count == 0
   end
 
