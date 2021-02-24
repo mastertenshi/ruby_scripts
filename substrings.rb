@@ -1,23 +1,23 @@
 def substrings(string, dict)
-	hash = {}
+  hash = {}
 
-	dict.each do |key|
-		key.downcase!
+  dict.each do |key|
+    key.downcase!
 
-		string.split(" ").each do |word|
-			word.downcase!
+    string.split(" ").each do |word|
+      word.downcase!
 
-			if word.include?(key)
-				if hash.key?(key)
-					hash[key] += 1
-				else
-					hash[key] = 1
-				end
-			end
-		end
-	end
-
-	hash
+      if word.include?(key)
+        if hash.key?(key)
+          hash[key] += 1
+        else
+          hash[key] = 1
+        end
+      end
+    end
+  end
+  
+  hash
 end
 
 dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
