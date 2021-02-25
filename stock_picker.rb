@@ -17,6 +17,7 @@ def stock_picker(prices)
       days = [min_i, i]
     end
   end
+  
   days
 end
 
