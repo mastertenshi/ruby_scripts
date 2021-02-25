@@ -1,10 +1,8 @@
 def bubble_sort(arr)
-  arr.each_index do |i|
-    limit = arr.length - i - 1
+  for i in 0...arr.length
     sorted = true
 
-    arr.each_index do |k|
-      break unless k < limit
+    for k in 0...(arr.length - i - 1)
       if arr[k] > arr[k + 1]
         arr[k], arr[k + 1] = arr[k + 1], arr[k]
         sorted = false
@@ -15,7 +13,6 @@ def bubble_sort(arr)
   end
   arr
 end
-
 
 data = [10, 2, 6, 2, 1, 5, 8, 6, 0, 2, 8, 9]
 
