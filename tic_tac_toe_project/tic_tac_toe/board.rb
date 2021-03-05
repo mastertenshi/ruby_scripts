@@ -11,17 +11,7 @@ module TicTacToe
       puts "\v"
 
       @grid.each_with_index do |row, index|
-        row_str = "\t"
-
-        row.each do |cell|
-          # Colorize X and O
-          if cell.is_a? String
-            cell = (cell == 'X') ? cell.red.bold : cell.blue.bold
-          end
-          row_str += " #{cell} |"
-        end
-
-        puts row_str.chomp('|')
+        puts "\t" + format_row(row)
         puts "\t---+---+---" unless index == 2
       end
 
@@ -36,6 +26,7 @@ module TicTacToe
     def get_row(position)
       idx = (position - 1) / 3
       row = Array.new(3)
+
       row.each_index do |i|
         row[i] = @grid[idx][i]
       end
@@ -45,6 +36,7 @@ module TicTacToe
     def get_column(position)
       idx = (position - 1) % 3
       column = Array.new(3)
+
       column.each_index do |i|
         column[i] = @grid[i][idx]
       end
@@ -70,12 +62,29 @@ module TicTacToe
 
     def diagonal_rtl
       diagonal = Array.new(3)
+      k = diagonal.length - 1
+
       diagonal.each_index do |i|
-        k = i - 2
-        k *= -1 unless k.positive?
         diagonal[i] = @grid[i][k]
+        k -= 1
       end
       diagonal
+    end
+
+    private
+
+    def format_row(row)
+      row_str = ''
+
+      row.each do |cell|
+        # Colorize X and O
+        if cell.is_a? String
+          cell = (cell == 'X') ? cell.red.bold : cell.blue.bold
+        end
+        row_str += " #{cell} |"
+      end
+
+      row_str.chomp('|')
     end
   end
 end
