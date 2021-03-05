@@ -1,12 +1,13 @@
 module TicTacToe
   class Board
     def initialize
-      @grid = []
-      set_grid
+      n = 0
+      @grid = Array.new(3) { Array.new(3) { n += 1 } }
     end
 
-    def draw_board
+    def draw
       system 'clear'
+      puts "Enter 'exit' or 'quit' to leave the game."
       puts "\v"
 
       @grid.each_with_index do |row, index|
@@ -27,30 +28,26 @@ module TicTacToe
       puts "\v"
     end
 
-    def set_cell(num, sign)
-      num -= 1
-      @grid[num / 3][num % 3] = sign
+    def set_cell(position, sign)
+      n = position - 1
+      @grid[n / 3][n % 3] = sign
     end
 
-    def get_row(pos)
-      idx = (pos - 1) / 3
-      row = []
-
-      (0..2).each do |i|
-        row.push(@grid[idx][i])
+    def get_row(position)
+      idx = (position - 1) / 3
+      row = Array.new(3)
+      row.each_index do |i|
+        row[i] = @grid[idx][i]
       end
-
       row
     end
 
-    def get_column(pos)
-      idx = (pos - 1) % 3
-      column = []
-
-      (0..2).each do |i|
-        column.push(@grid[i][idx])
+    def get_column(position)
+      idx = (position - 1) % 3
+      column = Array.new(3)
+      column.each_index do |i|
+        column[i] = @grid[i][idx]
       end
-
       column
     end
 
@@ -64,35 +61,21 @@ module TicTacToe
     end
 
     def diagonal_ltr
-      diagonal = []
-      (0..2).each do |i|
-        diagonal.push(@grid[i][i])
+      diagonal = Array.new(3)
+      diagonal.each_index do |i|
+        diagonal[i] = @grid[i][i]
       end
       diagonal
     end
 
     def diagonal_rtl
-      diagonal = []
-      (0..2).each do |i|
+      diagonal = Array.new(3)
+      diagonal.each_index do |i|
         k = i - 2
         k *= -1 unless k.positive?
-        diagonal.push(@grid[i][k])
+        diagonal[i] = @grid[i][k]
       end
       diagonal
-    end
-
-    private
-
-    def set_grid
-      num = 1
-
-      (0..2).each do |i|
-        @grid.push([])
-        3.times do
-          @grid[i].push(num)
-          num += 1
-        end
-      end
     end
   end
 end

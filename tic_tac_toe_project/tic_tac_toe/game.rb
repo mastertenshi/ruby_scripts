@@ -18,17 +18,15 @@ module TicTacToe
           return true if @board.diagonal('rtl').all?(sign)
         end
       end
-
       false
     end
 
     def play
-      turns_count = 0
       player = @player1
 
       win = false
 
-      while turns_count < 9
+      (0..8).each do |turns_count|
         pos = prompt_position(player)
         @board.set_cell(pos, player.sign)
         @taken_positions.push(pos)
@@ -37,61 +35,55 @@ module TicTacToe
         break if win
 
         player = (player == @player1) ? @player2 : @player1
-
-        turns_count += 1
       end
 
-      @board.draw_board
-
-      win ? game_win(player) : game_draw
+      win ? game_win(player) : game_tie
     end
 
     private
 
-    def game_draw
-      puts "It's a draw!"
+    def game_tie
+      @board.draw
+
+      puts "It's a tie!"
+
       play_again
     end
 
     def game_win(player)
+      @board.draw
+
       puts "Congratz #{player.name} wins!!!"
+
       play_again
     end
 
     def play_again
       print "\nWanna play again? (y/n): "
-      input = gets.chomp.downcase
-      if %w[y yes].include?(input)
-        initialize
-        play
-      end
+      input = gets.chomp
+
+      initialize and play if %W[y yes #{''}].include?(input.downcase)
+      exit
     end
 
     def prompt_position(player = Player.new)
-      @board.draw_board
-
-      sign = (player.sign == 'X') ? player.sign.red : player.sign.blue
-      puts "#{player.name}'s turn (#{sign})"
-      print "\nEnter position number: "
-
-      pos = 0
+      @board.draw
+      Display.player_turn(player)
 
       # Until we get a valid position number
       loop do
         pos = gets.chomp
-        exit if %w[exit quit].include?(pos)
+        exit if %w[exit quit].include?(pos.downcase)
+
         pos = pos.to_i
         if pos.between?(1, 9)
-          break unless @taken_positions.include?(pos)
+          return pos unless @taken_positions.include?(pos)
 
-          puts "#{'Error! '.red} Position already played."
-          print 'Try another position [1-9]: '
+          Display.position_taken
         else
-          print "#{'Error! '.red} Enter number between [1-9]: "
+          Display.not_a_number
         end
       end
-
-      pos
     end
   end
 end
