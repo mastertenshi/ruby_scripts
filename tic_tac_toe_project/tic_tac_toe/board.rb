@@ -9,16 +9,14 @@ module TicTacToe
       system 'clear'
       puts "Enter 'exit' or 'quit' to leave the game."
       puts "\v"
-
       @grid.each_with_index do |row, index|
-        puts "\t" + format_row(row)
+        puts "\t#{format_row(row)}"
         puts "\t---+---+---" unless index == 2
       end
-
       puts "\v"
     end
 
-    def set_cell(player)
+    def set_cell(player)  # rubocop:disable Naming/AccessorMethodName
       n = player.position - 1
       @grid[n / 3][n % 3] = player.sign
     end
@@ -49,7 +47,7 @@ module TicTacToe
       ### Maybe?
       # return diagonal_ltr if direction == 'ltr'
       # return diagonal_rtl if direction == 'rtl'
-      # throw Exception
+      # throw Exception   # or return nil/0/-1
     end
 
     def diagonal_ltr
