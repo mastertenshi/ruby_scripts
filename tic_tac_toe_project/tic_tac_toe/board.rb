@@ -28,9 +28,9 @@ module TicTacToe
       puts "\v"
     end
 
-    def set_cell(position, sign)
-      n = position - 1
-      @grid[n / 3][n % 3] = sign
+    def set_cell(player)
+      n = player.position - 1
+      @grid[n / 3][n % 3] = player.sign
     end
 
     def get_row(position)

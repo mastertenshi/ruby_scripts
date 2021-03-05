@@ -7,37 +7,21 @@ module TicTacToe
       @taken_positions = []
     end
 
-    def win?(pos, sign)
-      return true if @board.get_column(pos).all?(sign)
-      return true if @board.get_row(pos).all?(sign)
-
-      if pos.odd?
-        if [1, 9].include?(pos)
-          return true if @board.diagonal('ltr').all?(sign)
-        else
-          return true if @board.diagonal('rtl').all?(sign)
-        end
-      end
-      false
-    end
-
     def play
       player = @player1
 
-      win = false
+      (1..9).each do |turns_count|
+        player.position = prompt_position(player)
 
-      (0..8).each do |turns_count|
-        pos = prompt_position(player)
-        @board.set_cell(pos, player.sign)
-        @taken_positions.push(pos)
+        @board.set_cell(player)
+        @taken_positions.push(player.position)
 
-        win = win?(pos, player.sign) unless turns_count < 4
-        break if win
+        game_win(player) if win?(player) && turns_count > 4
 
         player = (player == @player1) ? @player2 : @player1
       end
 
-      win ? game_win(player) : game_tie
+      game_tie
     end
 
     private
@@ -84,6 +68,23 @@ module TicTacToe
           Display.not_a_number
         end
       end
+    end
+
+    def win?(player)
+      pos = player.position
+      sign = player.sign
+
+      return true if @board.get_column(pos).all?(sign)
+      return true if @board.get_row(pos).all?(sign)
+
+      if pos.odd?
+        if [1, 9].include?(pos)
+          return true if @board.diagonal('ltr').all?(sign)
+        else
+          return true if @board.diagonal('rtl').all?(sign)
+        end
+      end
+      false
     end
   end
 end
