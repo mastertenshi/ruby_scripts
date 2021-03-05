@@ -16,7 +16,7 @@ module TicTacToe
         @board.set_cell(player)
         @taken_positions.push(player.position)
 
-        game_win(player) if win?(player) && turns_count > 4
+        game_win(player) if turns_count > 4 && win?(player)
 
         player = (player == @player1) ? @player2 : @player1
       end
